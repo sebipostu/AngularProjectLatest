@@ -1,0 +1,24 @@
+form{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+.card{
+    position: relative;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.blank{
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 400px;
+    height: 400px;
+    background-color: rgba(0,0,0,0.7);
+    
+}

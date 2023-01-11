@@ -1,0 +1,38 @@
+<form [formGroup]="messagesForm" (ngSubmit)="sendMessage()">
+  <mat-card
+    class="card"
+    [ariaDisabled]="
+      (messageSendingState$ | async) == messageSendingStateEnum.Sending
+    "
+  >
+    <mat-card-header>
+      <mat-card-title>Send the message</mat-card-title>
+      <button mat-button mat-dialog-close>
+        <span class="material-icons"> close </span>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <input required matInput placeholder="Name" formControlName="name"
+      /></mat-form-field>
+
+      <mat-form-field>
+        <textarea
+          required
+          matInput
+          placeholder="Message"
+          formControlName="message"
+        ></textarea>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-footer>
+      <button mat-button type="submit">Submit</button>
+    </mat-card-footer>
+    <div
+      class="blank"
+      *ngIf="(messageSendingState$ | async) == messageSendingStateEnum.Sending"
+    >
+      <app-flip-to-square-spinner></app-flip-to-square-spinner>
+    </div>
+  </mat-card>
+</form>

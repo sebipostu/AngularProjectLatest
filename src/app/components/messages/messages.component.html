@@ -1,0 +1,51 @@
+<div>
+  <button mat-button (click)="openFormDialog()">Add a new message</button>
+  <ng-container
+    *ngIf="(dataLoadingState$ | async) == 'loading'; else elseBlock"
+  >
+    <table class="mock-table">
+      <tr>
+        <td class="users-table-cell" *ngFor="let index of [0, 1, 2, 3]">
+          <ngx-skeleton-loader
+            count="5"
+            appearance="line"
+          ></ngx-skeleton-loader>
+        </td>
+      </tr>
+    </table>
+  </ng-container>
+  <ng-template #elseBlock>
+    <table class="users-table" matSort mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>Id</th>
+        <td class="users-table-cell" mat-cell *matCellDef="let element">
+          {{ element.id }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Name</th>
+        <td mat-cell class="users-table-cell" *matCellDef="let element">
+          {{ element.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="message">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Message</th>
+        <td mat-cell class="users-table-cell" *matCellDef="let element">
+          {{ element.message | messageTrim }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell class="users-table-cell" *matCellDef="let element">
+          {{ element.date | date : "dd.MM.yyyy" }}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        class="users-table-cell"
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+      ></tr>
+    </table>
+  </ng-template>
+</div>
