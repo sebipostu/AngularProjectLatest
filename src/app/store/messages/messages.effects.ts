@@ -6,16 +6,18 @@ import { of } from 'rxjs';
 import { MessagesActions } from '.';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class MessagesEffects {
   constructor(
     private actions$: Actions,
     private afs: AngularFirestore,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private store: Store
   ) {}
 
-  sendMessage$ = createEffect(
+  sendData$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(MessagesActions.sendData),
@@ -26,11 +28,13 @@ export class MessagesEffects {
             .set(action.data)
             .then(() => {
               this.snackbar.open('Message has been sent')._dismissAfter(5000);
+              this.store.dispatch(MessagesActions.sendDataSuccess());
             })
             .catch((err: HttpErrorResponse) => {
               this.snackbar
                 .open('An error has occured while sending your message')
                 ._dismissAfter(5000);
+              this.store.dispatch(MessagesActions.sendDataFailure(err));
             });
         })
       );
